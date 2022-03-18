@@ -16,3 +16,4 @@ use App\Http\Controllers\Pages;
 
 Route::get('/', [Pages\HomeController::class, 'index'])->name('home');
 Route::get('/sobre', [Pages\AboutController::class, 'index'])->name('about');
+Route::get('/depoimentos', [Pages\TestimonyController::class, 'index'])->name('testimony');
