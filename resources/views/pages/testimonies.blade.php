@@ -7,7 +7,14 @@
     <hr>
 
     <section id="testimonies">
+        @foreach($testimonies as $testimony)
+            <div class="card text-dark mb-3">
+                <h5 class="card-header">{{ $testimony->name }} <small>{{ date_format($testimony->created_at, 'd/m/Y H:i') }}</small></h5>
+                <div class="card-body">{{ $testimony->message }}</div>
+            </div>
+        @endforeach
 
+        {{ $testimonies->links() }}
     </section>
 
     <section id="form">
