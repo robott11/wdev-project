@@ -21,18 +21,22 @@
         <h3>Envie seu depoimento</h3>
 
         @if($errors->any())
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger alert-dismissible" role="alert">
                 <ul>
                     @foreach($errors->all() as $message)
                         <li>{{ $message }}</li>
                     @endforeach
                 </ul>
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
         @if(session('status'))
-            <div class="alert alert-success" role="alert">
+            <div class="alert alert-success alert-dismissible" role="alert">
                 {{ session('status') }}
+
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
