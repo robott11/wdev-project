@@ -22,14 +22,16 @@ Route::post('/depoimentos', [Pages\TestimonyController::class, 'create'])->name(
 
 Route::prefix('/admin')->group(function () {
     Route::middleware(['admin.check'])->group(function() {
-        Route::get('/logout', [AdminController::class, 'logout'])->name('admin.logout');
-        Route::get('/login', [AdminController::class, 'getLoginPage'])->name('admin.login');
-        Route::post('/login', [AdminController::class, 'login'])->name('admin.login.insert');
-        Route::get('/', [AdminController::class, 'index'])->name('admin.home');
-        Route::get('/depoimentos', [AdminController::class, 'getTestimonyPage'])->name('admin.testimony');
-        Route::get('/depoimentos/{id}/delete', [AdminController::class, 'getDeleteTestimonyPage'])->name('admin.testimony.del');
-        Route::post('/depoimentos/{id}/delete', [AdminController::class, 'deleteTestimony']);
-        Route::get('/depoimentos/{id}/edit', [AdminController::class, 'getEditTestimonyPage'])->name('admin.testimony.edit');
-        Route::post('/depoimentos/{id}/edit', [AdminController::class, 'editTestimony']);
+        Route::controller(AdminController::class)->group(function () {
+            Route::get('/logout', 'logout')->name('admin.logout');
+            Route::get('/login', 'getLoginPage')->name('admin.login');
+            Route::post('/login', 'login')->name('admin.login.insert');
+            Route::get('/', 'index')->name('admin.home');
+            Route::get('/depoimentos', 'getTestimonyPage')->name('admin.testimony');
+            Route::get('/depoimentos/{id}/delete', 'getDeleteTestimonyPage')->name('admin.testimony.del');
+            Route::post('/depoimentos/{id}/delete', 'deleteTestimony');
+            Route::get('/depoimentos/{id}/edit', 'getEditTestimonyPage')->name('admin.testimony.edit');
+            Route::post('/depoimentos/{id}/edit', 'editTestimony');
+        });
     });
 });
