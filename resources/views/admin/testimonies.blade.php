@@ -21,6 +21,7 @@
                 <th style="width: 200px;">Nome</th>
                 <th>Texto</th>
                 <th>Data</th>
+                <th>Editado</th>
                 <th style="width: 200px;">Ações</th>
             </tr>
         </thead>
@@ -31,6 +32,7 @@
                     <td>{{ $testimony->name }}</td>
                     <td>{{ $testimony->message }}</td>
                     <td>{{ date_format($testimony->created_at, 'd/m/Y H:i:s') }}</td>
+                    <td>{{ date_format($testimony->updated_at, 'd/m/Y H:i:s') }}</td>
                     <td>
                         <a href="{{ route('admin.testimony.edit', [$testimony->id]) }}">
                             <button type="button" class="btn btn-primary">Editar</button>
