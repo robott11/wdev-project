@@ -30,6 +30,13 @@ class AdminController extends Controller
         ]);
     }
 
+    public function getUsersPage(): string
+    {
+        return view('admin.users', [
+            'users' => Admin::orderBy('created_at', 'desc')->paginate(5)
+        ]);
+    }
+
     public function login(AdminLoginRequest $request): RedirectResponse
     {
         $credentials = $request->validated();

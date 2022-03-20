@@ -28,7 +28,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" href="">Usuários</a>
+                                <a class="nav-link active" href="{{ route('admin.users') }}">Usuários</a>
                             </li>
                         </ul>
 

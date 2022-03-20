@@ -32,6 +32,7 @@ Route::prefix('/admin')->group(function () {
             Route::post('/depoimentos/{id}/delete', 'deleteTestimony');
             Route::get('/depoimentos/{id}/edit', 'getEditTestimonyPage')->name('admin.testimony.edit');
             Route::post('/depoimentos/{id}/edit', 'editTestimony');
+            Route::get('/users', 'getUsersPage')->name('admin.users');
         });
     });
 });
