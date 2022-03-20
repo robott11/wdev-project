@@ -26,5 +26,10 @@ Route::prefix('/admin')->group(function () {
         Route::get('/login', [AdminController::class, 'getLoginPage'])->name('admin.login');
         Route::post('/login', [AdminController::class, 'login'])->name('admin.login.insert');
         Route::get('/', [AdminController::class, 'index'])->name('admin.home');
+        Route::get('/depoimentos', [AdminController::class, 'getTestimonyPage'])->name('admin.testimony');
+        Route::get('/depoimentos/{id}/delete', [AdminController::class, 'getDeleteTestimonyPage'])->name('admin.testimony.del');
+        Route::post('/depoimentos/{id}/delete', [AdminController::class, 'deleteTestimony']);
+        Route::get('/depoimentos/{id}/edit', [AdminController::class, 'getEditTestimonyPage'])->name('admin.testimony.edit');
+        Route::post('/depoimentos/{id}/edit', [AdminController::class, 'editTestimony']);
     });
 });

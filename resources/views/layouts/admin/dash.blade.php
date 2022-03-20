@@ -24,7 +24,7 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" href="">Depoimentos</a>
+                                <a class="nav-link active" href="{{ route('admin.testimony') }}">Depoimentos</a>
                             </li>
 
                             <li class="nav-item">
