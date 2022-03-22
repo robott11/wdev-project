@@ -8,10 +8,9 @@
 
     <h3>Descrição:</h3>
     <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum ducimus illum incidunt laborum officia reiciendis
-        rerum totam! Accusamus dignissimos, dolorum, eius, excepturi expedita maxime obcaecati praesentium sit sunt ut voluptate.
+        Projeto em MVC feito pelo WDEV no <a href="https://www.youtube.com/watch?v=TmeyoTNu748&list=PL_zkXQGHYosGQwNkMMdhRZgm4GjspTnXs">youtube</a>.
+        O projeto foi refeito no Laravel 9.
     </p>
 
-    <p>Meu site: </p>
-    <a href="https://laravel.com">https://laravel.com</a>
+    Canal WDEV: <a href="https://www.youtube.com/channel/UCUInlDpWqdFaYsS1D09B1mA">https://www.youtube.com/channel/UCUInlDpWqdFaYsS1D09B1mA</a>
 @endsection
