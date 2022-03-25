@@ -13,6 +13,11 @@ use Illuminate\Http\RedirectResponse;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin.check');
+    }
+
     public function index(): string
     {
         return view('admin.home');
