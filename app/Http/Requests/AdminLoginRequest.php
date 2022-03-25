@@ -17,21 +17,6 @@ class AdminLoginRequest extends FormRequest
     }
 
     /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'email.required' => 'Campo de e-mail vazio',
-            'password.required' => 'Campo de senha vazio',
-            'email.max' => 'E-mail não pode ser maior que 255 caracters',
-            'password.max' => 'Senha não pode ser maior que 255 caracters'
-        ];
-    }
-
-    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
