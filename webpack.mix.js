@@ -11,8 +11,6 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js([
-    'node_modules/jquery/dist/jquery.js',
-    'node_modules/bootstrap/dist/js/bootstrap.bundle.js'
-], 'public/assets/js')
+mix.js('node_modules/jquery/dist/jquery.js', 'public/assets/js')
+    .js('node_modules/bootstrap/dist/js/bootstrap.bundle.js', 'public/assets/js')
     .postCss('node_modules/bootstrap/dist/css/bootstrap.css', 'public/assets/css')
