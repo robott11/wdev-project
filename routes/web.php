@@ -17,8 +17,8 @@ use App\Http\Controllers\AdminController;
 
 Route::get('/', [Pages\HomeController::class, 'index'])->name('home');
 Route::get('/sobre', [Pages\AboutController::class, 'index'])->name('about');
-Route::get('/depoimentos', [Pages\TestimonyController::class, 'index'])->name('testimony');
-Route::post('/depoimentos', [Pages\TestimonyController::class, 'create'])->name('testimony.create');
+Route::get('/depoimentos', [Pages\TestimonyController::class, 'getTestimonies'])->name('testimony');
+Route::post('/depoimentos', [Pages\TestimonyController::class, 'postTestimony'])->name('testimony.create');
 
 Route::prefix('/admin')->group(function () {
     Route::controller(AdminController::class)->group(function () {

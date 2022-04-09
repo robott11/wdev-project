@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Builder;
 
 class TestimonyRepository
 {
+    private Testimony $testimony;
+
+    public function __construct(Testimony $testimony)
+    {
+        $this->testimony = $testimony;
+    }
+
     public function getTestimoniesByCreatedDate(): Builder
     {
         return Testimony::orderBy('created_at', 'desc');
@@ -14,9 +21,8 @@ class TestimonyRepository
 
     public function createTestimony(string $name, string $message)
     {
-        $testimony = new Testimony();
-        $testimony->name = $name;
-        $testimony->message = $message;
-        $testimony->save();
+        $this->testimony->name = $name;
+        $this->testimony->message = $message;
+        $this->testimony->save();
     }
 }
