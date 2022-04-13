@@ -7,15 +7,24 @@ use App\Http\Requests\AdminLoginRequest;
 use App\Http\Requests\TestimonyRequest;
 use App\Models\Admin;
 use App\Models\Testimony;
+use App\Services\AdminService;
+use App\Services\TestimonyService;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    public function __construct()
+    private AdminService $service;
+
+    private TestimonyService $testimonyService;
+
+    public function __construct(AdminService $service, TestimonyService $testimonyService)
     {
         $this->middleware('admin.check');
+        $this->service = $service;
+        $this->testimonyService = $testimonyService;
     }
 
     public function index(): string
@@ -23,110 +32,85 @@ class AdminController extends Controller
         return view('admin.home');
     }
 
-    public function getLoginPage(): string
+    public function getLogin(): string
     {
         return view('admin.login');
     }
 
-    public function getTestimonyPage(): string
+    public function getTestimony(): string
     {
         return view('admin.testimonies', [
             'testimonies' => Testimony::orderBy('created_at', 'desc')->paginate(5)
         ]);
     }
 
-    public function getUsersPage(): string
+    public function getUsers(): string
     {
         return view('admin.users', [
             'users' => Admin::orderBy('created_at', 'desc')->paginate(5)
         ]);
     }
 
-    public function login(AdminLoginRequest $request): RedirectResponse
+    public function postLogin(AdminLoginRequest $request): RedirectResponse
     {
         $credentials = $request->validated();
 
-        $adminInfo = Admin::where('email', '=', $credentials['email'])->first();
-
-        if (!$adminInfo) {
-            return back()->withErrors('Essa conta não existe');
-        }
-
-        if (Hash::check($credentials['password'], $adminInfo->password)) {
-            $request->session()->put('LoggedAdmin', $adminInfo->id);
-
+        try {
+            $this->service->login($request, $credentials);
             return redirect()->route('admin.home');
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
         }
-
-        return back()->withErrors('Senha incorreta.');
     }
 
-    public function logout(): RedirectResponse|null
+    public function getLogout(): RedirectResponse
     {
-        if (session()->has('LoggedAdmin')) {
-            session()->pull('LoggedAdmin');
+        $this->service->logout();
 
-            return redirect()->route('admin.login');
-        }
-
-        return null;
+        return redirect()->route('admin.login');
     }
 
-    public function getDeleteTestimonyPage(Request $request): RedirectResponse|string
+    public function getDelete(Request $request): RedirectResponse|View
     {
-        $testimony = Testimony::find($request->id);
+        $testimony = $this->testimonyService->getTestimonyById($request->id);
 
         if ($testimony) {
             return view('admin.testimony-del', [
-                'name' => $testimony->name,
-                'message' => $testimony->message
+                'name' => $testimony['name'],
+                'message' => $testimony['message']
             ]);
         }
 
         return back();
     }
 
-    public function deleteTestimony(Request $request): RedirectResponse
+    public function postDelete(Request $request): RedirectResponse
     {
-        $testimony = Testimony::find($request->id);
+        $this->testimonyService->deleteTestimony($request->id);
 
-        if($testimony) {
-            $testimony->delete();
-
-            return redirect()->route('admin.testimony')->with('status', 'Depoimento deletado.');
-        }
-
-        return back();
+        return redirect()->route('admin.testimony')->with('status', 'Depoimento deletado.');
     }
 
-    public function getEditTestimonyPage(Request $request): RedirectResponse|string
+    public function getEdit(Request $request): RedirectResponse|View
     {
-        $testimony = Testimony::find($request->id);
+        $testimony = $this->testimonyService->getTestimonyById($request->id);
 
         if($testimony) {
             return view('admin.testimony-edit', [
-                'name' => $testimony->name,
-                'message' => $testimony->message
+                'name' => $testimony['name'],
+                'message' => $testimony['message']
             ]);
         }
 
         return back();
     }
 
-    public function editTestimony(TestimonyRequest $request): RedirectResponse
+    public function postEdit(TestimonyRequest $request): RedirectResponse
     {
         $editedTestimony = $request->validated();
 
-        $testimony = Testimony::find($request->id);
+        $this->testimonyService->editTestimony($request->id, $editedTestimony);
 
-        if ($testimony) {
-            $testimony->name = $request['name'];
-            $testimony->message = $request['message'];
-            $testimony->save();
-
-            return redirect()->route('admin.testimony')->with('status', 'Depoimento editado.');
-        }
-
-        return back();
+        return redirect()->route('admin.testimony')->with('status', 'Depoimento editado.');
     }
 }

@@ -23,4 +23,19 @@ class TestimonyService
     {
         $this->testimonyRepository->createTestimony($testimony['name'], $testimony['message']);
     }
+
+    public function getTestimonyById($id): array|null
+    {
+        return $this->testimonyRepository->getTestimonyById($id);
+    }
+
+    public function deleteTestimony($id)
+    {
+        $this->testimonyRepository->deleteTestimonyIfExists($id);
+    }
+
+    public function editTestimony($id, array $data)
+    {
+        $this->testimonyRepository->editTestimony($id, $data);
+    }
 }

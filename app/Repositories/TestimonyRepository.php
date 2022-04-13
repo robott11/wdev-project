@@ -25,4 +25,38 @@ class TestimonyRepository
         $this->testimony->message = $message;
         $this->testimony->save();
     }
+
+    public function getTestimonyById($id): array|null
+    {
+        $model = Testimony::find($id);
+
+        if ($model) {
+            return [
+                'id' => $model->id,
+                'name' => $model->name,
+                'message' => $model->message,
+                'created_at' => $model->created_at,
+                'updated_at' => $model->updated_at
+            ];
+        }
+
+        return null;
+    }
+
+    public function deleteTestimonyIfExists($id)
+    {
+        $model = Testimony::find($id);
+        $model?->delete();
+    }
+
+    public function editTestimony($id, array $data)
+    {
+        $model = Testimony::find($id);
+
+        if ($model) {
+            $model->name = $data['name'];
+            $model->message = $data['message'];
+            $model->save();
+        }
+    }
 }
