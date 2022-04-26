@@ -20,15 +20,15 @@
 
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ route('admin.home') }}">Home</a>
+                                <a class="nav-link active {{ (request()->is('admin')) ? 'text-warning' : '' }}" href="{{ route('admin.home') }}">Home</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ route('admin.testimony') }}">Depoimentos</a>
+                                <a class="nav-link active {{ (request()->is('admin/depoimentos')) ? 'text-warning' : '' }}" href="{{ route('admin.testimony') }}">Depoimentos</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link active" href="{{ route('admin.users') }}">Usuários</a>
+                                <a class="nav-link active {{ (request()->is('admin/users')) ? 'text-warning' : '' }}" href="{{ route('admin.users') }}">Usuários</a>
                             </li>
                         </ul>
 
