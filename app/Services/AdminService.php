@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Repositories\AdminRepository;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AdminService
@@ -21,23 +22,17 @@ class AdminService
         $email = $credentials['email'];
         $password = $credentials['password'];
 
-        $adminInfo = $this->adminRepository->getAdminByEmail($email);
-
-        if (!$adminInfo) {
+        if (!$adminInfo = $this->adminRepository->getAdminByEmail($email)) {
             throw new Exception('Essa conta não existe');
         }
 
-        if (!Hash::check($password, $adminInfo->password)) {
+        if (!Auth::guard('admin')->attempt($credentials)) {
             throw new Exception('Senha incorreta');
         }
-
-        $request->session()->put('LoggedAdmin', $adminInfo->id);
     }
 
     public function logout()
     {
-        if (session()->has('LoggedAdmin')) {
-            session()->pull('LoggedAdmin');
-        }
+        Auth::guard('admin')->logout();
     }
 }
