@@ -2,6 +2,10 @@
 
 Decidi recriar o [projeto WDEV](https://www.youtube.com/watch?v=TmeyoTNu748&list=PL_zkXQGHYosGQwNkMMdhRZgm4GjspTnXs) no Laravel
 
+# Live DEMO
+
+Você pode encontrar um exemplo funcionando aqui: [https://intense-taiga-16596.herokuapp.com](https://intense-taiga-16596.herokuapp.com/)
+
 # Instalação
 
 ### Requisitos
