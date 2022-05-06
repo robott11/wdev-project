@@ -7,7 +7,7 @@ use App\Http\Requests\AdminLoginRequest;
 use App\Http\Requests\TestimonyRequest;
 use App\Models\Admin;
 use App\Models\Testimony;
-use App\Services\AdminService;
+use App\Repositories\AdminRepository;
 use App\Services\TestimonyService;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,35 +16,35 @@ use Illuminate\View\View;
 
 class AdminController extends Controller
 {
-    private AdminService $service;
+    private AdminRepository $repository;
 
     private TestimonyService $testimonyService;
 
-    public function __construct(AdminService $service, TestimonyService $testimonyService)
+    public function __construct(AdminRepository $repository, TestimonyService $testimonyService)
     {
         $this->middleware('admin.check');
-        $this->service = $service;
+        $this->repository = $repository;
         $this->testimonyService = $testimonyService;
     }
 
-    public function index(): string
+    public function index(): View
     {
         return view('admin.home');
     }
 
-    public function getLogin(): string
+    public function getLogin(): View
     {
         return view('admin.login');
     }
 
-    public function getTestimony(): string
+    public function getTestimony(): View
     {
         return view('admin.testimonies', [
             'testimonies' => Testimony::orderBy('created_at', 'desc')->paginate(5)
         ]);
     }
 
-    public function getUsers(): string
+    public function getUsers(): View
     {
         return view('admin.users', [
             'users' => Admin::orderBy('created_at', 'desc')->paginate(5)
@@ -56,7 +56,8 @@ class AdminController extends Controller
         $credentials = $request->validated();
 
         try {
-            $this->service->login($request, $credentials);
+            $this->repository->attemptAuthenticate($credentials);
+
             return redirect()->route('admin.home');
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());
@@ -65,7 +66,7 @@ class AdminController extends Controller
 
     public function getLogout(): RedirectResponse
     {
-        $this->service->logout();
+        $this->repository->logout();
 
         return redirect()->route('admin.login');
     }
