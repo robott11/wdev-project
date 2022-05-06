@@ -3,47 +3,28 @@
 namespace App\Repositories;
 
 use App\Models\Testimony;
-use Illuminate\Database\Eloquent\Builder;
 
 class TestimonyRepository
 {
-    private Testimony $testimony;
-
-    public function __construct(Testimony $testimony)
-    {
-        $this->testimony = $testimony;
-    }
-
-    public function getTestimoniesByCreatedDate(): Builder
+    public function getTestimoniesByCreatedDate()
     {
         return Testimony::orderBy('created_at', 'desc');
     }
 
-    public function createTestimony(string $name, string $message)
+    public function createTestimony(array $formTestimony)
     {
-        $this->testimony->name = $name;
-        $this->testimony->message = $message;
-        $this->testimony->save();
+        $testimony = new Testimony();
+        $testimony->name = $formTestimony['name'];
+        $testimony->message = $formTestimony['message'];
+        $testimony->save();
     }
 
-    public function getTestimonyById($id): array|null
+    public function getTestimonyById($id)
     {
-        $model = Testimony::find($id);
-
-        if ($model) {
-            return [
-                'id' => $model->id,
-                'name' => $model->name,
-                'message' => $model->message,
-                'created_at' => $model->created_at,
-                'updated_at' => $model->updated_at
-            ];
-        }
-
-        return null;
+        return Testimony::find($id);
     }
 
-    public function deleteTestimonyIfExists($id)
+    public function deleteTestimony($id)
     {
         $model = Testimony::find($id);
         $model?->delete();

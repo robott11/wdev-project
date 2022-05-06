@@ -8,7 +8,7 @@ use App\Http\Requests\TestimonyRequest;
 use App\Models\Admin;
 use App\Models\Testimony;
 use App\Repositories\AdminRepository;
-use App\Services\TestimonyService;
+use App\Repositories\TestimonyRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -18,13 +18,13 @@ class AdminController extends Controller
 {
     private AdminRepository $repository;
 
-    private TestimonyService $testimonyService;
+    private TestimonyRepository $testimonyRepository;
 
-    public function __construct(AdminRepository $repository, TestimonyService $testimonyService)
+    public function __construct(AdminRepository $repository, TestimonyRepository $testimonyRepository)
     {
         $this->middleware('admin.check');
         $this->repository = $repository;
-        $this->testimonyService = $testimonyService;
+        $this->testimonyRepository = $testimonyRepository;
     }
 
     public function index(): View
@@ -73,12 +73,12 @@ class AdminController extends Controller
 
     public function getDelete(Request $request): RedirectResponse|View
     {
-        $testimony = $this->testimonyService->getTestimonyById($request->id);
+        $testimony = $this->testimonyRepository->getTestimonyById($request->id);
 
         if ($testimony) {
             return view('admin.testimony-del', [
-                'name' => $testimony['name'],
-                'message' => $testimony['message']
+                'name' => $testimony->name,
+                'message' => $testimony->message
             ]);
         }
 
@@ -87,19 +87,19 @@ class AdminController extends Controller
 
     public function postDelete(Request $request): RedirectResponse
     {
-        $this->testimonyService->deleteTestimony($request->id);
+        $this->testimonyRepository->deleteTestimony($request->id);
 
         return redirect()->route('admin.testimony')->with('status', 'Depoimento deletado.');
     }
 
     public function getEdit(Request $request): RedirectResponse|View
     {
-        $testimony = $this->testimonyService->getTestimonyById($request->id);
+        $testimony = $this->testimonyRepository->getTestimonyById($request->id);
 
         if($testimony) {
             return view('admin.testimony-edit', [
-                'name' => $testimony['name'],
-                'message' => $testimony['message']
+                'name' => $testimony->name,
+                'message' => $testimony->message
             ]);
         }
 
@@ -109,8 +109,7 @@ class AdminController extends Controller
     public function postEdit(TestimonyRequest $request): RedirectResponse
     {
         $editedTestimony = $request->validated();
-
-        $this->testimonyService->editTestimony($request->id, $editedTestimony);
+        $this->testimonyRepository->editTestimony($request->id, $editedTestimony);
 
         return redirect()->route('admin.testimony')->with('status', 'Depoimento editado.');
     }

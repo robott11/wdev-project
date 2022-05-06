@@ -4,22 +4,22 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TestimonyRequest;
-use App\Services\TestimonyService;
+use App\Repositories\TestimonyRepository;
 use Illuminate\Http\RedirectResponse;
 
 class TestimonyController extends Controller
 {
-    private TestimonyService $service;
+    private TestimonyRepository $repository;
 
-    public function __construct(TestimonyService $service)
+    public function __construct(TestimonyRepository $repository)
     {
-        $this->service = $service;
+        $this->repository = $repository;
     }
 
     public function getTestimonies(): string
     {
         return view('pages.testimonies', [
-            'testimonies' => $this->service->getTestimoniesPerPage()
+            'testimonies' => $this->repository->getTestimoniesByCreatedDate()->paginate(2)
         ]);
     }
 
@@ -27,7 +27,7 @@ class TestimonyController extends Controller
     {
         $formTestimony = $request->validated();
 
-        $this->service->createTestimony($formTestimony);
+        $this->repository->createTestimony($formTestimony);
 
         return redirect()->route('testimony')->with('status', 'Depoimento criado!');
     }
