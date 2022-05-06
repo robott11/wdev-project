@@ -4,7 +4,7 @@ Decidi recriar o [projeto WDEV](https://www.youtube.com/watch?v=TmeyoTNu748&list
 
 # Live DEMO
 
-Você pode encontrar um exemplo funcionando aqui: [https://intense-taiga-16596.herokuapp.com](https://intense-taiga-16596.herokuapp.com/)
+Você pode encontrar um exemplo funcionando aqui: [https://wdev-mvc.herokuapp.com](https://wdev-mvc.herokuapp.com/)
 
 # Instalação
 
