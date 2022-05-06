@@ -26,7 +26,7 @@
 
                     <div class="form-group">
                         <label>E-mail</label>
-                        <input type="email" class="form-control" name="email" placeholder="email@exemplo.com" autofocus>
+                        <input type="text" class="form-control" name="email" placeholder="email@exemplo.com" autofocus>
                     </div>
 
                     <div class="form-group my-3">

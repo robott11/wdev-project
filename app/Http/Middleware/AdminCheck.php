@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminCheck
 {
@@ -16,11 +17,11 @@ class AdminCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!session()->has('LoggedAdmin') && ($request->path() != 'admin/login')) {
+        if (!Auth::guard('admin')->check() && $request->path() != 'admin/login') {
             return redirect()->route('admin.login');
         }
 
-        if (session()->has('LoggedAdmin') && ($request->path() == 'admin/login' || $request->path() == 'admin/register')) {
+        if (Auth::guard('admin')->check() && $request->path() == 'admin/login') {
             return back();
         }
 
