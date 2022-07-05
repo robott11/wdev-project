@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TestimonyRequest;
 use App\Repositories\TestimonyRepository;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class TestimonyController extends Controller
 {
@@ -16,7 +17,7 @@ class TestimonyController extends Controller
         $this->repository = $repository;
     }
 
-    public function getTestimonies(): string
+    public function getTestimonies(): View
     {
         return view('pages.testimonies', [
             'testimonies' => $this->repository->getTestimoniesByCreatedDate()->paginate(2)

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class HomeController extends Controller
 {
-    public function index(): string
+    public function index(): View
     {
-        return view('pages.home');
+        return view('pages.home', ['dado' => 'pinto']);
     }
 }
